@@ -8,7 +8,7 @@ routes.put("/add-cart", authenticationToken, async (req, res) => {
         const userdata = await User.findById(id);
         const isbookinCart = userdata.cart.includes(bookid);
         if (isbookinCart) {
-            return res.status(200).json("Book is already in favourite...");
+            return res.status(200).json("Book is already in Cart...");
         }
         await User.findByIdAndUpdate(id, { $push: { cart: bookid } });
         return res.status(200).json("Book added to Cart...");

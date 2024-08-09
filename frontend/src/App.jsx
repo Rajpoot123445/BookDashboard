@@ -15,6 +15,9 @@ import Footer from './components/Footer';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import DetailedBook from './components/DetailedBook';
 import { Toaster } from 'react-hot-toast';
+import Favourite from './components/Profile/Favourite';
+import OrderHistory from './components/Profile/OrderHistory';
+import Setting from './components/Profile/Setting';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -34,7 +37,11 @@ function App() {
         <Route path='/all-books/:id' element={ <DetailedBook /> } />
         <Route path='/about-us' element={<AboutUs />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile />} >
+          <Route index element={ <Favourite /> } />
+          <Route path='/profile/orderHistory' element={ <OrderHistory /> } />
+          <Route path='/profile/settings' element={ <Setting /> } />
+        </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>

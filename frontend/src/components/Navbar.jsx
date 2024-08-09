@@ -29,11 +29,6 @@ const Navbar = () => {
     ...(showCart ? [{ title: "Profile", link: "/profile" }] : []),
   ];
 
-  const clearall = ()=>{
-    localStorage.clear();
-    location.reload();
-  };
-
   return (
     <>
       <nav className='fixed top-0 flex w-full justify-between z-50 text-white px-8 py-3 items-center bg-slate-800'>
@@ -50,11 +45,7 @@ const Navbar = () => {
             ))}
           </div>
           {showCart ?
-            <div>
-              <Link to="/" onClick={clearall} className='px-4 py-2 border transition-all duration-300 bg-red-500 rounded-md'>
-                Logout
-              </Link>
-            </div>
+            " "
             :
             <div className='space-x-4'>
               <Link to="/login" className='px-4 py-2 outline-none border transition-all duration-300 border-blue-500 hover:bg-blue-500 rounded-md'>
@@ -76,12 +67,18 @@ const Navbar = () => {
             {item.title}
           </Link>
         ))}
+        {showCart ?
+            " "
+            :
+            <>
         <Link to="/login" className='px-6 py-3 outline-none border transition-all text-white text-lg font-bold duration-300 border-blue-500 hover:bg-blue-500 rounded-md'>
           Login
         </Link>
         <Link to="/signup" className='px-6 py-3 outline-none transition-all text-lg font-bold duration-300 bg-blue-500 hover:bg-blue-700 rounded-md'>
           SignUp
         </Link>
+        </>
+}
       </div>
     </>
   );

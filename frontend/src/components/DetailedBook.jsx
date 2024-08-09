@@ -3,32 +3,89 @@ import axios from 'axios';
 import Loader from '../components/Loader';
 import { useParams } from 'react-router-dom'
 import { GrLanguage } from "react-icons/gr";
+import { MdFavorite } from 'react-icons/md';
+import { IoMdCart } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const DetailedBook = () => {
     const { id } = useParams();
     const [Data, setData] = useState();
+    const [rolz, setRolz] = useState();
+    const [showCart, setShowCart] = useState(false);
+    const tokenlocal = JSON.parse(localStorage.getItem("Token"));
+    const idlocal = JSON.parse(localStorage.getItem("Users"));
+    const headers = {
+        'authorization': `Bearer ${tokenlocal}`,
+        'id': idlocal,
+        'bookid': id
+    };
+
     useEffect(() => {
         const fetch = async () => {
             const res = await axios.get(
-                `http://localhost:1000/test/get-by-id/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoQ2xhaW0iOlt7Im5hbWUiOiJSYW5hQXdhaXMifSx7InJvbGUiOiJ1c2VyIn1dLCJpYXQiOjE3MjI0MTA3OTYsImV4cCI6MTcyNTAwMjc5Nn0.X-ZyF9SVVL62pTPRIS4GScGGzMlaJMwKZmv_Lii4fas`
-                    }
-                }
+                `http://localhost:1000/test/get-by-id/${id}`, { headers }
             );
+
             setData(res.data.data);
         }
         fetch();
+        const userData = localStorage.getItem('Users');
+        setShowCart(!!userData);
     }, []);
-    console.log(id);
+
+    useEffect(() => {
+        const roles = async () => {
+          try {
+            const res = await axios.get("http://localhost:1000/api/get-data", { headers });
+            setRolz(res.data.role);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+        roles();
+      }, []);
+
+    const handleFavourite = async ()=>{
+        const res = await axios.put("http://localhost:1000/add/add-favourite", {},{ headers });
+        alert(res.data);
+    };
+
+    const handleCart = async () => {
+        try {
+            const res = await axios.put("http://localhost:1000/add/add-cart", {}, { headers });
+            alert(res.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+    
     return (
         <>
             <div>
                 {
                     Data && (
                         <div className='flex p-8 gap-6'>
-                            <div className='w-full md:w-1/2 mt-6 bg-slate-800 px-6 h-[70vh] flex justify-center'> <img src={Data.url} alt="Img" className='w-[100%]' /> </div>
+                            <div className='w-full md:w-1/2 mt-6 bg-slate-800 px-8 py-8 h-[65vh] flex justify-around gap-4'>
+                                <div className='h-full'>
+                                    <img src={Data.url} alt="Img" className='h-[100%]' />
+                                </div>
+                                {
+                                    showCart ? 
+                                    rolz == "user" ? 
+                                    <div className='flex flex-col gap-6'>
+                                        <button className='bg-white rounded-full p-2 text-3xl text-red-500' onClick={handleFavourite}> <MdFavorite /> </button>
+                                        <button className='bg-white rounded-full p-2 text-3xl text-blue-500' onClick={handleCart}> <IoMdCart /> </button>
+                                    </div> 
+                                    :
+                                    <div className='flex flex-col gap-6'>
+                                        <button className='bg-white rounded-full p-2 text-3xl text-blue-500'> <FaEdit /> </button>
+                                        <button className='bg-white rounded-full p-2 text-3xl text-red-500'> <MdDelete /> </button>
+                                    </div> 
+                                    : 
+                                    " "
+                                }
+                            </div>
                             <div className='w-full md:w-1/2 flex  flex-col gap-2 px-4 py-1 text-gray-400'>
                                 <h1 className='text-4xl text-yellow-100'> {Data.title} </h1>
                                 <h2 className='text-lg'> by {Data.author} </h2>

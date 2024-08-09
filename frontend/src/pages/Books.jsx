@@ -5,15 +5,17 @@ import BookCards from '../components/BookCards';
 
 const Books = () => {
   const [Data, setData] = useState();
+  const tokenlocal = JSON.parse(localStorage.getItem("Token"));
+    const idlocal = JSON.parse(localStorage.getItem("Users"));
+    const headers = {
+        'authorization': `Bearer ${tokenlocal}`,
+        'id': idlocal,
+    };
     useEffect(() => {
       const fetch =  async ()=>{
         const res = await axios.get(
             "http://localhost:1000/test/get-books",
-            {
-                headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoQ2xhaW0iOlt7Im5hbWUiOiJSYW5hQXdhaXMifSx7InJvbGUiOiJ1c2VyIn1dLCJpYXQiOjE3MjI0MTA3OTYsImV4cCI6MTcyNTAwMjc5Nn0.X-ZyF9SVVL62pTPRIS4GScGGzMlaJMwKZmv_Lii4fas`
-                  }
-            }
+            {headers}
         );
         setData(res.data.data);
       }
