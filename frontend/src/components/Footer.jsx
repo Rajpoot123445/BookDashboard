@@ -1,4 +1,5 @@
 import React from 'react'
+import image from '../assets/logo.png';
 
 const Footer = () => {
   return (
@@ -6,21 +7,22 @@ const Footer = () => {
       <footer className="bg-slate-800">
         <div className="mx-auto w-full py-6 px-8 ">
           <div className="md:flex md:justify-between">
-            <div className="mb-6 md:mb-0">
-              <a href="https://flowbite.com/" className="flex items-center">
-                <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" />
-                <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Flowbite</span>
-              </a>
+            <div>
+
+            <div className='flex '>
+              <img src={image} alt="logo" width="40px" />
+              <h1 className='text-2xl text-white ml-2 p-0 font-bold'>AS-Book</h1>
+            </div>
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
                 <h2 className="mb-6 text-sm font-semibold  uppercase text-white">Resources</h2>
                 <ul className="text-gray-400  font-medium">
                   <li className="mb-4">
-                    <a href="https://flowbite.com/" className="hover:underline">Flowbite</a>
+                    <a href="/" className="hover:underline">AS-Book</a>
                   </li>
                   <li>
-                    <a href="https://tailwindcss.com/" className="hover:underline">Tailwind CSS</a>
+                    <a href="/all-books" className="hover:underline">All Books</a>
                   </li>
                 </ul>
               </div>
@@ -28,10 +30,10 @@ const Footer = () => {
                 <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
                 <ul className=" text-gray-400 font-medium">
                   <li className="mb-4">
-                    <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</a>
+                    <a href="https://github.com/Rajpoot123445" className="hover:underline ">Github</a>
                   </li>
                   <li>
-                    <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</a>
+                    <a href="https://facebook.com/" className="hover:underline">Facebook</a>
                   </li>
                 </ul>
               </div>
@@ -50,7 +52,7 @@ const Footer = () => {
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="sm:flex sm:items-center sm:justify-between">
-            <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
+            <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com/" className="hover:underline">AS-Book™</a>. All Rights Reserved.
             </span>
             <div className="flex mt-4 sm:justify-center sm:mt-0">
               <a href="#" className="text-gray-500 hover:text-blue-600 dark:hover:text-white">

@@ -6,16 +6,11 @@ import { Link } from 'react-router-dom';
 
 const RecentCard = () => {
     const [Data, setData] = useState();
-    const tokenlocal = JSON.parse(localStorage.getItem("Token"));
-    // const idlocal = JSON.parse(localStorage.getItem("Users"));
-    const headers = {
-        'authorization': `Bearer ${tokenlocal}`,
-    };
+    
     useEffect(() => {
       const fetch =  async ()=>{
         const res = await axios.get(
-            "http://localhost:1000/test/get-recent-books",
-            { headers }
+            "http://localhost:1000/test/get-recent-books"
         );
         setData(res.data.data);
       }

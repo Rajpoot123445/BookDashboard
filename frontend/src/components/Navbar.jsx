@@ -2,31 +2,62 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import image from '../assets/logo.png';
 import { FaGripLines } from "react-icons/fa6";
+import axios from 'axios';
 
 const Navbar = () => {
   const [MobileNav, setMobileNav] = useState("hidden");
   const [showCart, setShowCart] = useState(false);
+  const [Data, setData] = useState("");
+  
+  useEffect(() => {
+    const tokenlocal = JSON.parse(localStorage.getItem("Token"));
+    const idlocal = JSON.parse(localStorage.getItem("Users"));
+  
+    const headers = {
+      'authorization': `Bearer ${tokenlocal}`,
+      'id': idlocal
+    }
+    const fetch = async () => {
+      try {
+        const res = await axios.get("http://localhost:1000/api/get-data", { headers });
+        setData(res.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetch();
+  }, []);
 
   useEffect(() => {
     const userData = localStorage.getItem('Users');
     setShowCart(!!userData);
   }, []);
 
+  useEffect(() => {
+    if (MobileNav === "block") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [MobileNav]);
+
   const links = [
     {
       title: "Home",
       link: "/",
     },
+    ...(Data?.role==="admin" ? [] : [
     {
       title: "About Us",
       link: "/about-us",
     },
+  ]),
     {
       title: "All Books",
       link: "/all-books",
     },
-    ...(showCart ? [{ title: "Cart", link: "/cart" }] : []),
-    ...(showCart ? [{ title: "Profile", link: "/profile" }] : []),
+    ...(Data?.role==="user" ? [{ title: "Cart", link: "/cart" }] : []),
+    ...(Data?.role==="user" ? [{ title: "Profile", link: "/profile" }] : Data?.role==="admin" ? [{ title: "Admin Panel", link: "/profile" }] : []),
   ];
 
   return (
@@ -34,7 +65,7 @@ const Navbar = () => {
       <nav className='fixed top-0 flex w-full justify-between z-50 text-white px-8 py-3 items-center bg-slate-800'>
         <div className='flex justify-center items-center'>
           <img src={image} alt="logo" width="40px" />
-          <h1 className='text-2xl ml-2 p-0 font-bold'>BuyBook</h1>
+          <h1 className='text-2xl ml-2 p-0 font-bold'>AS-Book</h1>
         </div>
         <div className='hidden md:flex justify-center items-center gap-4'>
           <div className='text-white flex gap-5'>
@@ -61,7 +92,7 @@ const Navbar = () => {
           <FaGripLines />
         </button>
       </nav>
-      <div className={`${MobileNav} absolute top-0 h-screen flex md:hidden flex-col justify-center items-center gap-4 bg-zinc-500 z-40 w-full`}>
+      <div className={`${MobileNav} absolute top-0 h-full flex md:hidden flex-col justify-center items-center gap-4 bg-zinc-500 z-40 w-full`}>
         {links.map((item, i) => (
           <Link key={i} to={item.link} className='hover:text-blue-500 cursor-pointer text-lg font-bold transition-all duration-300'>
             {item.title}

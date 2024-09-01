@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
+
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [Data, setData] = useState([]);
   const [Total, setTotal] = useState(0);
   const tokenlocal = JSON.parse(localStorage.getItem("Token"));
@@ -20,7 +23,7 @@ const Cart = () => {
         res.data.data.forEach((items) => {
           total += items.price;
         })
-        console.log(total);
+        setTotal(total);
         setData(res.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -34,6 +37,17 @@ const Cart = () => {
     const res = await axios.put(`http://localhost:1000/add/remove-cart-id/${bookid}`, {}, { headers });
     alert(res.data);
   };
+
+  const PlaceOrder = async () => {
+    try {
+      const res = await axios.post('http://localhost:1000/add/place-order', { order: Data }, { headers });
+      alert(res.data.message);
+      navigate('/profile/orderHistory');
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
   return (
     <div className='h-auto'>
@@ -80,7 +94,9 @@ const Cart = () => {
             <p>{Data.length} Books</p>
             <p> $ {Total} </p>
           </div>
-          <button className='bg-white text-black font-medium py-1 rounded-md'> Place your order </button>
+          <button className='bg-white text-black font-medium py-1 rounded-md' onClick={PlaceOrder}>
+            Place your order
+          </button>
         </div>
       </div>
     </div>

@@ -7,18 +7,18 @@ import Loader from '../components/Loader';
 const Profile = () => {
   
   const [Data, setData] = useState("");
-  const tokenlocal = JSON.parse(localStorage.getItem("Token"));
-  const idlocal = JSON.parse(localStorage.getItem("Users"));
-
+  
   useEffect(() => {
+    const tokenlocal = JSON.parse(localStorage.getItem("Token"));
+    const idlocal = JSON.parse(localStorage.getItem("Users"));
+  
+    const headers = {
+      'authorization': `Bearer ${tokenlocal}`,
+      'id': idlocal
+    }
     const fetch = async () => {
       try {
-        const res = await axios.get("http://localhost:1000/api/get-data", {
-          headers: {
-            'authorization': `Bearer ${tokenlocal}`,
-            'id': idlocal
-          }
-        });
+        const res = await axios.get("http://localhost:1000/api/get-data", { headers });
         setData(res.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -30,16 +30,16 @@ const Profile = () => {
 
   return (
     <>
-      <div className='flex flex-col md:flex-row  py-6 px-2 md:px-12 gap-4 text-white'>
+      <div className='flex flex-col md:flex-row py-6 px-2 md:px-12 gap-4 text-white'>
         {!Data && ( <div className='w-full flex justify-center items-center text-4xl'>
           <Loader />
         </div> )  }
         {Data && (
           <>
-            <div className='w-1/6 h-screen'>
+            <div className='md:w-1/6 md:h-screen'>
               <Sidebar detail={Data} />
             </div>
-            <div className='w-5/6'>
+            <div className='md:w-5/6'>
               <Outlet />
             </div>
           </>

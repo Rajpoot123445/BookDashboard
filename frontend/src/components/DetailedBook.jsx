@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loader from '../components/Loader';
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { GrLanguage } from "react-icons/gr";
 import { MdFavorite } from 'react-icons/md';
 import { IoMdCart } from "react-icons/io";
@@ -9,6 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 const DetailedBook = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [Data, setData] = useState();
     const [rolz, setRolz] = useState();
@@ -59,6 +60,16 @@ const DetailedBook = () => {
             console.error("Error:", error);
         }
     };
+
+    const handleDelete = async ()=>{
+        try {
+            const res = await axios.delete("http://localhost:1000/test/delete-books", { headers });
+            alert(res.data.message);
+            navigate('/all-books');
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
     
     return (
         <>
@@ -79,8 +90,8 @@ const DetailedBook = () => {
                                     </div> 
                                     :
                                     <div className='flex flex-col gap-6'>
-                                        <button className='bg-white rounded-full p-2 text-3xl text-blue-500'> <FaEdit /> </button>
-                                        <button className='bg-white rounded-full p-2 text-3xl text-red-500'> <MdDelete /> </button>
+                                        <Link to={`/update-book/${id}`} className='bg-white rounded-full p-2 text-3xl text-blue-500'> <FaEdit /> </Link>
+                                        <button className='bg-white rounded-full p-2 text-3xl text-red-500' onClick={handleDelete}> <MdDelete /> </button>
                                     </div> 
                                     : 
                                     " "

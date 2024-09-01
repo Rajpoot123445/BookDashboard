@@ -14,7 +14,7 @@ routes.put("/add-cart", authenticationToken, async (req, res) => {
         return res.status(200).json("Book added to Cart...");
     } catch (error) {
         console.log(error);
-        return res.status(500).json("Error occuring added to favourite...");
+        return res.status(500).json("Error occuring added to Cart...");
     }
 });
 

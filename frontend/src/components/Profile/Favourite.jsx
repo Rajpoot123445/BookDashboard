@@ -4,14 +4,14 @@ import BookCards from '../BookCards';
 
 const Favourite = () => {
     const [Data, setData] = useState([]);
-    const tokenlocal = JSON.parse(localStorage.getItem("Token"));
-    const idlocal = JSON.parse(localStorage.getItem("Users"));
-    const headers = {
-        'authorization': `Bearer ${tokenlocal}`,
-        'id': idlocal,
-    };
 
     useEffect(() => {
+        const tokenlocal = JSON.parse(localStorage.getItem("Token"));
+        const idlocal = JSON.parse(localStorage.getItem("Users"));
+        const headers = {
+            'authorization': `Bearer ${tokenlocal}`,
+            'id': idlocal,
+        };
         const roles = async () => {
             try {
                 const res = await axios.get("http://localhost:1000/add/get-favourite", { headers });

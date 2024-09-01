@@ -26,6 +26,7 @@ const Login = () => {
         toast.success('Login Successful!');
         localStorage.setItem('Users', JSON.stringify(res.data.id)); 
         localStorage.setItem('Token', JSON.stringify(res.data.token)); 
+        
         navigate('/');
       } else {
         toast.error('Login failed. Please check your credentials.');
